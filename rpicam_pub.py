@@ -36,8 +36,6 @@ if __name__ == '__main__':
     button = 2
     pinMode(button, "INPUT")
 
-
-
     while True:
         if (digitalRead(button) == 1):
             out = cv2.imwrite('capture.jpg', frame)
@@ -46,7 +44,7 @@ if __name__ == '__main__':
             im_bytes = im_arr.tobytes()
             im_b64 = base64.b64encode(im_bytes)
 
-            client.publish("scottsus/img", im_64)
+            client.publish("proj/image", im_b64)
         time.sleep(2)
             
 
