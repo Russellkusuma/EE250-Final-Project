@@ -1,6 +1,3 @@
-from api_utils import get_access_token, get_results, run_model
-from argparser import parse_args
-from utils import save_results
 import json
 import paho.mqtt.client as mqtt
 import time
@@ -19,10 +16,11 @@ def on_connect(client, userdata, flags, rc):
 
 def on_message(client, userdata, msg):
     print("Hello Russ!")
-    print(msg)
-    png_recovered = base64.decodestring(msg)
-    print("Done converting!")
-    print(png_recovered)
+    decodedMsg = str(msg.payload, "utf-8")
+    imgdata = base64.b64decode(decodedMsg)
+    with open('russ.jpg', 'wb') as f:
+        f.write(imgdata)
+    print("Done!")
 
 
 def send_to_cloud(client, userdata, image):
