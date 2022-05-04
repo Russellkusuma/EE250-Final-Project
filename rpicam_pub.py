@@ -31,13 +31,12 @@ if __name__ == '__main__':
 
     button = 2
     pinMode(button, "INPUT")
+    cap = cv2.VideoCapture(0)
 
     while True:
         ret,frame = cap.read() # return a single frame in variable `frame`
         cv2.imshow('frame',frame) #display the captured image
         if (digitalRead(button) == 1):
-            print("hello")
-            #cv2.imwrite('capture.jpg',frame)
             out = cv2.imwrite('capture.jpg', frame)
             if(out):
                 print("Encoding and publishing image")
@@ -47,18 +46,8 @@ if __name__ == '__main__':
                 im_b64 = base64.b64encode(im_bytes)
                 print(type(im_b64))
                 client.publish("scottsus/image", im_b64)
-                #client.publish("scottsus/image", im_bytes)
-                
-                #f = open('capture.jpg', 'rb')
-                #fileContent = f.read()
-                #byteArr = bytearray(fileContent)
-                #client.publish("scottsus/image", byteArr, 0)
-                #client.publish("scottsus/image", "hi")
             else:
                 print("failed to save jpeg")
-
-
-            client.publish("proj/image", im_b64)
         time.sleep(2)
             
 
