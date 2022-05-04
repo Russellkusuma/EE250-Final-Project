@@ -16,10 +16,6 @@ Run rpi_pub_and_sub.py on your Raspberry Pi.
 def on_connect(client, userdata, flags, rc):
     print("Connected to server (i.e., broker) with result code "+str(rc))
 
-    client.message_callback_add("scottsus/led", led_callback)
-    client.message_callback_add("scottsus/lcd", lcd_callback)
-
-
 #Default message callback. Please use custom callbacks.
 def on_message(client, userdata, msg):
     decodedMsg = str(msg.payload, "utf-8")
@@ -37,12 +33,23 @@ if __name__ == '__main__':
     pinMode(button, "INPUT")
 
     while True:
+        ret,frame = cap.read() # return a single frame in variable `frame`
+        cv2.imshow('frame',frame) #display the captured image
         if (digitalRead(button) == 1):
+            print("hello")
+            cv2.imwrite('capture.jpg',frame)
             out = cv2.imwrite('capture.jpg', frame)
-            img = cv2.imread('capture.jpg')
-            im_arr = cv2.imencode('.jpg', img)  # im_arr: image in Numpy one-dim array format.
-            im_bytes = im_arr.tobytes()
-            im_b64 = base64.b64encode(im_bytes)
+            if(out):
+                print("Encoding and publishing image")
+                img = cv2.imread('capture.jpg')
+                im_arr = cv2.imencode('.jpg', img)[1]  # im_arr: image in Numpy one-dim array format.
+                im_bytes = im_arr.tobytes()
+                #im_b64 = base64.b64encode(im_bytes)
+                #client.publish("scottsus/image", im_b64)
+                client.publish("scottsus/image", im_bytes)
+            else:
+                print("failed to save jpeg")
+
 
             client.publish("proj/image", im_b64)
         time.sleep(2)
