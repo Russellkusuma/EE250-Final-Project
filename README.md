@@ -36,9 +36,15 @@ External Libraries used:
 
 ## Usage
 
-To quickly start using our app, run the following command in the terminal:
+To quickly start using our app,
+
+run the following command in the server node:
 ```bash
-python3 run.py
+python3 server_sub.py
+```
+run the following command in the sensor node:
+```bash
+python3 rpicam_pub.py
 ```
 
 ## Troubleshooting
