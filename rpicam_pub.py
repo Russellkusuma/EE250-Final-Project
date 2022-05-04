@@ -38,16 +38,23 @@ if __name__ == '__main__':
         cv2.imshow('frame',frame) #display the captured image
         if (digitalRead(button) == 1):
             print("hello")
-            cv2.imwrite('capture.jpg',frame)
+            #cv2.imwrite('capture.jpg',frame)
             out = cv2.imwrite('capture.jpg', frame)
             if(out):
                 print("Encoding and publishing image")
                 img = cv2.imread('capture.jpg')
                 im_arr = cv2.imencode('.jpg', img)[1]  # im_arr: image in Numpy one-dim array format.
                 im_bytes = im_arr.tobytes()
-                #im_b64 = base64.b64encode(im_bytes)
-                #client.publish("scottsus/image", im_b64)
-                client.publish("scottsus/image", im_bytes)
+                im_b64 = base64.b64encode(im_bytes)
+                print(type(im_b64))
+                client.publish("scottsus/image", im_b64)
+                #client.publish("scottsus/image", im_bytes)
+                
+                #f = open('capture.jpg', 'rb')
+                #fileContent = f.read()
+                #byteArr = bytearray(fileContent)
+                #client.publish("scottsus/image", byteArr, 0)
+                #client.publish("scottsus/image", "hi")
             else:
                 print("failed to save jpeg")
 
