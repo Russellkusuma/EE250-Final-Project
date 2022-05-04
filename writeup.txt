@@ -1,0 +1,46 @@
+EE 250 Final Project
+
+Lab Members: Drew Uramoto, Russell Tan, Scott Susanto
+
+
+Aim:
+  
+  Given a person with audio disabilities and his/her knowledge of the American Sign Language (ASL)
+  system, our program will capture hand signs in accord with the ASL system and output the associated
+  english alphabet to a user (presumably one who is unfamiliar with ASL) in a user-friendly manner.
+
+
+Description:
+  
+  Our program achieves this by splitting the process into 3 phases.
+  
+  Phase I utilizes the GrovePi camera and the OpenCV library to take a snapshot of the hand sign. 
+  We then apply some data processing to make the image more readable to a ML model. This is done
+  in the GrovePi node, and after it has performed the necessary input processing, sends the processed
+  image to the server node, which happens to be the host machine on Scott's laptop.
+
+  Phase II receives the processed image and sends it to a ML model, Modelplace Cloud API's ASL reader,
+  in the cloud. After applying basic authentication, the model takes in an input image and returns a
+  JSON file with relevant statistics about the image. What's particularly relevant to us is the string
+  "class_name", which returns the alphabet corresponding to the input hand sign image. This alphabet is
+  then passed on to a HTML page to visualize the results.
+
+  Phase III is the actual visualization of results. It takes the input hand sign image and the output
+  alphabet to display to the user to aid in the translation of ASL hand signs to the english alphabet
+  to facilitate conversation between the two parties.
+
+
+Reflection:
+
+  In hindsight, our ML model was not as accurate as we had hoped. This model was created by someone
+  else and shared to use through Modelplace Cloud, and therefore might not have been specially suited
+  for our local conditions.
+
+  A possible remedy might be to train an ML model ourselves which will cater more to our local 
+  conditions. However, this is not necessarily feasible as we would need massive datasets to train our
+  model. Both the acquisition of these datasets and the time it would take to train the model would be
+  far outside the scope of EE 250. Nonetheless, there remains a non-zero possibility that we will
+  pursue this path in the future, given the endless possibilities of ML, and further enhance our program.
+
+  With all that said, thank you to the EE 250 teaching team for an excellent semester of IoT!
+  
