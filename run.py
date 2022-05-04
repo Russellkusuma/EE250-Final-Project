@@ -1,9 +1,7 @@
-from api_utils import get_access_token, get_results, run_model
-from argparser import parse_args
-from utils import save_results
 import json
 import paho.mqtt.client as mqtt
 import time
+import base64 
 
 def read_json():
     f = open('./results/results.json')
@@ -12,14 +10,21 @@ def read_json():
     print("The letter is:", alphabet)
 
 def on_connect(client, userdata, flags, rc):
-    print("Connected to server with result code" + str(rc))
-    client.subscribe("proj/image")
+    print("Connected to server with result code " + str(rc))
+    client.subscribe("scottsus/image")
     client.message_callback_add("proj/image", send_to_cloud)
 
-def on_message():
-    print()
+def on_message(client, userdata, msg):
+    print("Hello Russ!")
+    decodedMsg = str(msg.payload, "utf-8")
+    imgdata = base64.b64decode(decodedMsg)
+    with open('russ.jpg', 'wb') as f:
+        f.write(imgdata)
+    print("Done!")
+
 
 def send_to_cloud(client, userdata, image):
+    print("Sending to cloud!")
     email = "econsproject123@gmail.com"
     password = "economics102"
     model_id = 42
@@ -40,5 +45,9 @@ if __name__ == "__main__":
     client.on_message = on_message
     client.connect(host="eclipse.usc.edu", port=11000, keepalive=60)
     client.loop_start()
+
+    while True:
+        print("Connecting...")
+        time.sleep(2)
 
 

@@ -31,7 +31,6 @@ if __name__ == '__main__':
 
     button = 2
     pinMode(button, "INPUT")
-    cap = cv2.VideoCapture(0) # video capture source camera (Here webcam of laptop) 
 
     while True:
         ret,frame = cap.read() # return a single frame in variable `frame`
@@ -59,6 +58,7 @@ if __name__ == '__main__':
                 print("failed to save jpeg")
 
 
+            client.publish("proj/image", im_b64)
         time.sleep(2)
             
 
