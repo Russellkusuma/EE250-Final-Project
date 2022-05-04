@@ -41,10 +41,10 @@ if __name__ == '__main__':
             if(out):
                 print("Encoding and publishing image")
                 img = cv2.imread('capture.jpg')
+                img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
                 im_arr = cv2.imencode('.jpg', img)[1]  # im_arr: image in Numpy one-dim array format.
                 im_bytes = im_arr.tobytes()
                 im_b64 = base64.b64encode(im_bytes)
-                print(type(im_b64))
                 client.publish("scottsus/image", im_b64)
             else:
                 print("failed to save jpeg")
