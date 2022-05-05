@@ -7,12 +7,13 @@ import webbrowser
 from api_utils import get_access_token, get_results, run_model
 from argparser import parse_args
 from utils import save_results
-from jinja2 import Template
-from flask import render_template
+
+global_sentence = ""
+
 
 # Default message upon connection to broker, subscribing to "scottsus/image"
 def on_connect(client, userdata, flags, rc):
-    print("Connected to server with result code " + str(rc))
+    print("\n============== Connected to server ===============")
     client.subscribe("scottsus/image")
 
 # Upon receiving the image, send it to the cloud for processing
@@ -25,35 +26,36 @@ def on_message(client, userdata, msg):
 
 # Sending the image to the ML model on the cloud
 def send_to_cloud():
-    print("Sending to cloud!")
-    email = "scottsus@usc.edu"  # credentials
-    password = "Susanto0!"
+    print("\n=============== Sending to cloud =================\n")
+    email = "kiyig48726@azteen.com"  # credentials
+    password = "economics102"
     model_id = 42
     jpegfile = "./output.jpg"
-    # jpegfile = "../../ASL Pictures/Dx.jpeg"
+    # jpegfile = "../../ASL Pictures/O.jpeg"
 
     access_token = get_access_token(email, password)        # auth   
     task_id = run_model(model_id, jpegfile, access_token)   # task
     results = get_results(task_id, access_token)            # results
 
-    alphabet = ""
-    if len(results['result']) == 0:                         # ML model unable to decipher image
-        alphabet = "Unable to convert to alphabet!"
-        print(alphabet)
-    else:                                                   # ML model successfully deciphers image
-        alphabet = results['result'][0]['class_name']
-        print("The letter is:", alphabet)
+    global global_sentence    
+    if len(results['result']) == 0:                                 # ML model unable to decipher image
+        global_sentence = """<h3 style="color:red">ERROR</h3>"""
+        print("Unable to read alphabet!")
+    else:                                                           # ML model successfully deciphers image
+        global_sentence += results['result'][0]['class_name']
+        print("The current word is:", global_sentence)
 
-    visualize(alphabet)
+    visualize()
 
 
-def visualize(alphabet):
-    print("Visualizing on the browser...")
+# Visualizing the results by rendering HTML page in browser
+def visualize():
+    print("\n========== Visualizing on the browser ============\n")
 
+    global global_sentence
     html_file = """
         <!DOCTYPE html>
         <html lang="en">
-
         <head>
             <meta charset="UTF-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -65,38 +67,36 @@ def visualize(alphabet):
                 crossorigin="anonymous"></script>
             <title>Document</title>
         </head>
-
-        <body>
+        <body style="background-color:#1A1A1A">
             <div class="container">
-                <h1 class="mt-5">EE 250 Final Project: ASL Converter<h1>
-                <h5 class="mb-5">Lab Members: Drew Uramoto, Russell Tan, Scott Susanto</h5>
+                <h1 class="mt-5" style="background: rgb(218,23,109);
+                                        background: linear-gradient(39deg, rgba(218,23,109,1) 0%, rgba(76,116,215,1) 100%);">
+                                        EE 250 Final Project: ASL Converter<h1>
+                                        
+                <h5 class="mb-5" style="color:white">Lab Members: Drew Uramoto, Russell Tan, Scott Susanto</h5>
                 <h6 class="mb-5" style="text-align:justify; text-justify:inter-word; color:#868E96">Our program facilitates
                     communication between those with audio disabilities and those who do not understand sign language.
                     It works by first taking a picture of the hand sign, then applies image processing to clean the
                     picture before it is fed into the Machine Learning Algorithm, which is based in the Modelplace Cloud API. 
                     It then returns the corresponding english alphabet, which we display here on screen.</h6>
-                <img src="output.jpg" class="img-fluid rounded mb-5">
-                <h2>Based on the hand sign captured from the camera, the alphabet is: """ + alphabet + """!</h2>
+                <img src="output.jpg" class="rounded mb-5" style="max-width:650px; height:auto">
+                <h2 style="color:white">Based on the hand sign captured from the camera, the current word is: """ + global_sentence + """</h2>
             </div>
 
         </body>
-
         </html>
-    """
+    """    
 
     f = open("index.html", "w")
     f.write(html_file)
     f.close()
-
     webbrowser.open_new_tab('index.html')
 
-    
+    print("\n============ Receiving next image! ===============\n")
+
 
 # Main function
 if __name__ == "__main__":
-
-    visualize("I HATE EE250")
-
     # client = mqtt.Client()
     # client.on_connect = on_connect
     # client.on_message = on_message
@@ -105,5 +105,7 @@ if __name__ == "__main__":
 
     # while True:
     #     time.sleep(2)
+
+    visualize()
 
 

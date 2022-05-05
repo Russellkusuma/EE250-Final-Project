@@ -32,7 +32,7 @@ if __name__ == '__main__':
             ##frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)  # image processing
             out = cv2.imwrite('capture.jpg', frame)
             if(out):
-                print("Encoding and publishing image")
+                print("=========== Encoding and publishing image =============")
                 img = cv2.imread('capture.jpg')
                 im_arr = cv2.imencode('.jpg', img)[1]       # im_arr: image in Numpy one-dim array format.
                 im_bytes = im_arr.tobytes()

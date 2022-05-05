@@ -1,7 +1,6 @@
 
         <!DOCTYPE html>
         <html lang="en">
-
         <head>
             <meta charset="UTF-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,21 +12,22 @@
                 crossorigin="anonymous"></script>
             <title>Document</title>
         </head>
-
-        <body>
+        <body style="background-color:#1A1A1A">
             <div class="container">
-                <h1 class="mt-5">EE 250 Final Project: ASL Converter<h1>
-                <h5 class="mb-5">Lab Members: Drew Uramoto, Russell Tan, Scott Susanto</h5>
+                <h1 class="mt-5" style="background: rgb(218,23,109);
+                                        background: linear-gradient(39deg, rgba(218,23,109,1) 0%, rgba(76,116,215,1) 100%);">
+                                        EE 250 Final Project: ASL Converter<h1>
+                                        
+                <h5 class="mb-5" style="color:white">Lab Members: Drew Uramoto, Russell Tan, Scott Susanto</h5>
                 <h6 class="mb-5" style="text-align:justify; text-justify:inter-word; color:#868E96">Our program facilitates
                     communication between those with audio disabilities and those who do not understand sign language.
                     It works by first taking a picture of the hand sign, then applies image processing to clean the
                     picture before it is fed into the Machine Learning Algorithm, which is based in the Modelplace Cloud API. 
                     It then returns the corresponding english alphabet, which we display here on screen.</h6>
-                <img src="output.jpg" class="img-fluid rounded mb-5">
-                <h2>Based on the hand sign captured from the camera, the alphabet is: HEIL HITLER!</h2>
+                <img src="output.jpg" class="rounded mb-5" style="max-width:650px; height:auto">
+                <h2 style="color:white">Based on the hand sign captured from the camera, the current word is: </h2>
             </div>
 
         </body>
-
         </html>
     
