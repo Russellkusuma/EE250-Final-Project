@@ -13,7 +13,7 @@ cap.set(4,480) #Height=480
 
 while True:
     ret,frame = cap.read()      # return a single frame in variable `frame`
-    if (digitalRead(button) == 0):
+    if (digitalRead(button) == 1):
         hsvim = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
         lower = np.array([0,48,80], dtype = "uint8")
         upper = np.array([20,255,255], dtype = "uint8")
@@ -22,5 +22,6 @@ while True:
         ret, thresh = cv2.threshold(blurred,0,255,cv2.THRESH_BINARY)
         cv2.imshow('thresh',thresh)   # display the captured image
         cv2.waitKey(1000)
+        out = cv2.imwrite('capture.jpg', thresh)
         ##frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)  # image processing
         #out = cv2.imwrite('capture.jpg', frame)
