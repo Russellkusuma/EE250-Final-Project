@@ -27,7 +27,7 @@ def on_message(client, userdata, msg):
 # Sending the image to the ML model on the cloud
 def send_to_cloud():
     print("\n=============== Sending to cloud =================\n")
-    email = "kiyig48726@azteen.com"  # credentials
+    email ="econsproject123@gmail.com"  # credentials
     password = "economics102"
     model_id = 42
     jpegfile = "./output.jpg"
@@ -42,6 +42,8 @@ def send_to_cloud():
         global_sentence = """<h3 style="color:red">ERROR</h3>"""
         print("Unable to read alphabet!")
     else:                                                           # ML model successfully deciphers image
+        if global_sentence == """<h3 style="color:red">ERROR</h3>""":
+            global_sentence = ""
         global_sentence += results['result'][0]['class_name']
         print("The current word is:", global_sentence)
 

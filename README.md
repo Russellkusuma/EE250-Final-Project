@@ -1,19 +1,20 @@
 # EE250 Final Project
 
-Lab Members: Drew Uramoto, Russell Tan, Scott Susanto
+## Lab Members:
+Drew Uramoto, Russell Tan, Scott Susanto
 
-Link to demo: https://github.com/susantoscott/EE250-Final-Project
+## Link to demo:
+https://drive.google.com/drive/u/0/folders/1-49tY47brkUnAqfFn6SqdLyiAnmD-zRM
 
-External Libraries used:
+
+## External Libraries used:
 - GrovePi
 - Paho-MQTT
 - OpenCV
 - Modelplace Cloud AI
 - base64
-- Freeboard
+- webbrowser
 
-
-![](data/demo.gif)
 
 ## Requirements
 
@@ -50,5 +51,5 @@ python3 rpicam_pub.py
 ## Troubleshooting
 
 If you get any troubles working with Modelplace Cloud API, please, contact us at
-scottsus@usc.edu
+scottsus@usc.edu and rctan@usc.edu
 
